@@ -13,6 +13,15 @@ const PORT = 5005;
 // Devs Team - Import the provided files with JSON data of students and cohorts here:
 // ...
 
+// CONNECT TO MONGODB
+mongoose
+	.connect(MONGODB_URI)
+	.then((res) =>
+		console.log(
+			`Connected to Mongo! Database name: "${res.connections[0].name}"`
+		)
+	)
+	.catch((err) => console.error("Error connecting to mongo", err));
 
 // INITIALIZE EXPRESS APP - https://expressjs.com/en/4x/api.html#express
 const app = express();
