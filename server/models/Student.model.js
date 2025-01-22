@@ -3,37 +3,32 @@ const Schema = mongoose.Schema;
 
 
 
-//Example from lesson:
-/* 
-// CREATE SCHEMA
-// Schema - describes and enforces the structure of the documents
-const bookSchema = new Schema(
+const studentSchema = new Schema (
 	{
-		title: String,
-		year: Number,
-		codeISBN: { type: String, maxlength: 13, unique: true },
-		quantity: { type: Number, min: 0, default: 0 },
-		lastPublished: { type: Date, default: Date.now },
-		//only accepts the following strings:
-		genre: {
-			type: String,
-			enum: ["romance", "fiction", "biography", "poetry"],
+		firstName: String, 
+		lastName: String, 
+		email: String, 
+		phone: String, 
+		linedinUrl: String, 
+		languages: {
+			type: Array, 
+			enum: ["English", "Spanish", "French", "German", "Portuguese", "Dutch", "Other"]
 		},
-		author: {
-			// <== UPDATE
+		program: String, 
+		background: String, 
+		image: String, 
+		cohort: {
 			type: Schema.Types.ObjectId,
-			ref: "Author", // "Author" is the model to which we are creating a reference relationship
+			ref: "Cohort"
 		},
-	},
-	{ timestamps: true }
-);
+		projects: Array, 
 
-// CREATE MODEL
-// The model() method defines a model (Book) and creates a collection (books) in MongoDB
-// The collection name will default to the lowercased, plural form of the model name:
-//                          "Book" --> "books"
-const Book = mongoose.model("Book", bookSchema);
+}, 
+	{timestamp: true}
+)
+
+//CREATE MODEL
+const Student = mongoose.model("Student", studentSchema)
 
 // EXPORT THE MODEL
-module.exports = Book;
-*/
+module.exports = Student;
