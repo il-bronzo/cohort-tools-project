@@ -2,8 +2,12 @@ const cohorts = require("./cohorts.json")
 const students = require("./students.json")
 const express = require("express");
 const morgan = require("morgan");
+const mongoose = require("mongoose")
+require("dotenv").config()
+const MONGODB_URI = process.env.MONGODB_URI
 const cookieParser = require("cookie-parser");
 const PORT = 5005;
+
 
 // STATIC DATA
 // Devs Team - Import the provided files with JSON data of students and cohorts here:
