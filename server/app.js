@@ -6,6 +6,7 @@ const mongoose = require("mongoose")
 require("dotenv").config()
 const MONGODB_URI = process.env.MONGODB_URI
 const cookieParser = require("cookie-parser");
+const Student = require("./models/Student.model");
 const PORT = 5005;
 
 
@@ -52,6 +53,29 @@ app.get("/api/cohorts", (req, res) => {
 app.get("/api/students", (req, res) => {
   res.json(students);
 });
+
+app.post("/api/students", (req, res) => {
+	Student.create({
+		firstName: req.body.firstName,
+		lastName: req.body.lastName, 
+		email: req.body.email,
+		phone: req.body.phone, 
+		linkedinUrl: req.body.linkedinUrl, 
+		languages: req.body.languages, 
+		program: req.body.program, 
+		background: req.body.background, 
+		image: req.body.image, 
+		cohort: req.body.cohort, 
+		projects: req.body.projects
+	})
+	.then((createdStudent) => {
+		res.status(201).json(createdStudent);
+	})
+	.catch((error) => {
+		console.log("Error while posting ", error)
+		res.status(500).json({error: "Failed to create the student"});
+	})
+})
 
 
 // START SERVER
