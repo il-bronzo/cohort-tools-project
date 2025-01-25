@@ -45,13 +45,30 @@ app.get("/readme", (req, res) => {
 app.get("/docs", (req, res) => {
   res.sendFile(__dirname + "/views/docs.html");
 });
+
+//Get all cohorts
 app.get("/api/cohorts", (req, res) => {
-  res.json(cohorts);
-});
-app.get("/api/students", (req, res) => {
-  res.json(students);
+  Cohort.find({})
+  .then((allCohorts) => {
+    res.status(200).json(allCohorts)
+  })
+  .catch((error) => {
+    res.status(500).json({message: "Error while trying to get all cohorts"})
+  })
 });
 
+//Get all students
+app.get("/api/students", (req, res) => {
+  Student.find({})
+  .then((allStudents) => {
+    res.status(200).json(allStudents)
+  })
+  .catch((error) => {
+    res.status(500).json({message: "Error while trying to get all students"})
+  })
+});
+
+//Create new student
 app.post("/api/students", (req, res) => {
   Student.create({
     firstName: req.body.firstName,
@@ -75,6 +92,7 @@ app.post("/api/students", (req, res) => {
     });
 });
 
+//Create new cohort
 app.post("/api/cohorts", (req, res) => {
   Cohort.create({
     cohortSlug: req.body.cohortSlug,
