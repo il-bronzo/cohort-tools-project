@@ -100,6 +100,7 @@ app.get("/api/students/cohort/:cohortId", (req, res) => {
 
 app.get("/api/students/:studentId", (req, res) => {
   Student.findById(req.params.studentId)
+  .populate("cohort")
   .then((student) => {
     res.status(200).json(student)
   })
