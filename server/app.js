@@ -176,6 +176,16 @@ app.get("/api/cohorts/:cohortId", (req, res) => {
   });
 });
 
+app.put("/api/cohorts/:cohortId", (req, res) => {
+  Cohort.findByIdAndUpdate(req.params.cohortId, req.body, {new:true})
+  .then((cohort) => {
+    res.status(200).json(cohort);
+  })
+  .catch((error) => {
+    res.status(500).json({message: "Error while updating a cohort"})
+  })
+})
+
 // START SERVER
 app.listen(PORT, () => {
   console.log(`Server listening on port ${PORT}`);
