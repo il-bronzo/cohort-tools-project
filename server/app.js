@@ -106,6 +106,17 @@ app.put("/api/students/:studentId", (req, res) => {
     });
 });
 
+//Delete a student
+app.delete("/api/students/:studentId", (req, res) => {
+  Student.findByIdAndDelete(req.params.studentId)
+  .then((student) => {
+    res.json(student);
+  })
+  .catch((error) => {
+    res.status(500).json({message: "Error while deleting a student"})
+  })
+})
+
 //Create new student
 app.post("/api/students", (req, res) => {
   Student.create({
