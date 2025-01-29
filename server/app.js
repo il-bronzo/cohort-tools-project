@@ -59,6 +59,8 @@ app.get("/api/cohorts", (req, res) => {
   })
 });
 
+
+// STUDENTS ROUTES 
 //Get all students
 app.get("/api/students", (req, res) => {
   Student.find({})
@@ -66,9 +68,23 @@ app.get("/api/students", (req, res) => {
     res.status(200).json(allStudents)
   })
   .catch((error) => {
-    res.status(500).json({message: "Error while trying to get all students"})
+    res.status(500).json({message: "Error while trying to get all students"});
   })
 });
+
+app.get("/api/students/cohort/:cohortId", (req, res) => {
+  const cohortId = req.params.cohortId;
+  Student.find({cohort:cohortId})
+  .then((result) => {  // "result" is the array of results that is returned by the find method (promise). every ditto we put inside the () of the then is automatically the result of find.
+    console.log("request -> ", req)
+    res.status(200).json(result);
+  })
+  .catch((error) => {
+    console.log("error -> ", error)
+    res.status(500).json({message: "Error while trying to get student by cohort"});
+  });
+
+})
 
 //Create new student
 app.post("/api/students", (req, res) => {
