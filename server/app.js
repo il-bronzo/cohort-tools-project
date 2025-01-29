@@ -86,6 +86,16 @@ app.get("/api/students/cohort/:cohortId", (req, res) => {
 
 })
 
+app.get("/api/students/:studentId", (req, res) => {
+  Student.findById(req.params.studentId)
+  .then((student) => {
+    res.status(200).json(student)
+  })
+  .catch((error) => {
+    res.status(500).json({message: "Error getting one student"})
+  })
+})
+
 //Create new student
 app.post("/api/students", (req, res) => {
   Student.create({
