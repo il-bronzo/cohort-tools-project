@@ -95,6 +95,16 @@ app.get("/api/students/:studentId", (req, res) => {
     res.status(500).json({message: "Error getting one student"})
   })
 })
+// Update existing student 
+app.put("/api/students/:studentId", (req, res) => {
+  Student.findByIdAndUpdate(req.params.studentId, req.body, {new:true} )
+    .then((student) => {
+      res.json(student);
+    })
+    .catch((error) => {
+      res.status(500).json({message: "Error while updating student"});
+    });
+});
 
 //Create new student
 app.post("/api/students", (req, res) => {
