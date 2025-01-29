@@ -48,19 +48,31 @@ app.get("/docs", (req, res) => {
   res.sendFile(__dirname + "/views/docs.html");
 });
 
-//Get all cohorts
-app.get("/api/cohorts", (req, res) => {
-  Cohort.find({})
-  .then((allCohorts) => {
-    res.status(200).json(allCohorts)
+// STUDENTS ROUTES 
+//Create new student
+app.post("/api/students", (req, res) => {
+  Student.create({
+    firstName: req.body.firstName,
+    lastName: req.body.lastName,
+    email: req.body.email,
+    phone: req.body.phone,
+    linkedinUrl: req.body.linkedinUrl,
+    languages: req.body.languages,
+    program: req.body.program,
+    background: req.body.background,
+    image: req.body.image,
+    cohort: req.body.cohort,
+    projects: req.body.projects,
   })
-  .catch((error) => {
-    res.status(500).json({message: "Error while trying to get all cohorts"})
-  })
+    .then((createdStudent) => {
+      res.status(201).json(createdStudent);
+    })
+    .catch((error) => {
+      console.log("Error while posting ", error);
+      res.status(500).json({ error: "Failed to create the student" });
+    });
 });
 
-
-// STUDENTS ROUTES 
 //Get all students
 app.get("/api/students", (req, res) => {
   Student.find({})
@@ -95,6 +107,7 @@ app.get("/api/students/:studentId", (req, res) => {
     res.status(500).json({message: "Error getting one student"})
   })
 })
+
 // Update existing student 
 app.put("/api/students/:studentId", (req, res) => {
   Student.findByIdAndUpdate(req.params.studentId, req.body, {new:true} )
@@ -117,30 +130,7 @@ app.delete("/api/students/:studentId", (req, res) => {
   })
 })
 
-//Create new student
-app.post("/api/students", (req, res) => {
-  Student.create({
-    firstName: req.body.firstName,
-    lastName: req.body.lastName,
-    email: req.body.email,
-    phone: req.body.phone,
-    linkedinUrl: req.body.linkedinUrl,
-    languages: req.body.languages,
-    program: req.body.program,
-    background: req.body.background,
-    image: req.body.image,
-    cohort: req.body.cohort,
-    projects: req.body.projects,
-  })
-    .then((createdStudent) => {
-      res.status(201).json(createdStudent);
-    })
-    .catch((error) => {
-      console.log("Error while posting ", error);
-      res.status(500).json({ error: "Failed to create the student" });
-    });
-});
-
+// COHORTS ROUTES
 //Create new cohort
 app.post("/api/cohorts", (req, res) => {
   Cohort.create({
@@ -163,6 +153,27 @@ app.post("/api/cohorts", (req, res) => {
       console.log("Error creating a new cohort", error);
       res.status(500).json({ error: "failed creating a new cohort" });
     });
+});
+
+//Get all cohorts
+app.get("/api/cohorts", (req, res) => {
+  Cohort.find({})
+  .then((allCohorts) => {
+    res.status(200).json(allCohorts)
+  })
+  .catch((error) => {
+    res.status(500).json({message: "Error while trying to get all cohorts"})
+  })
+});
+
+app.get("/api/cohorts/:cohortId", (req, res) => {
+  Cohort.findById(req.params.cohortId)
+  .then((cohort) => {
+    res.status(200).json(cohort);
+  })
+  .catch((error) => {
+    res.status(500).json({message: "Error while getting the cohort"});
+  });
 });
 
 // START SERVER
