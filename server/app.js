@@ -110,7 +110,7 @@ app.get("/api/students/:studentId", (req, res) => {
 
 // Update existing student 
 app.put("/api/students/:studentId", (req, res) => {
-  Student.findByIdAndUpdate(req.params.studentId, req.body, {new:true} )
+  Student.findByIdAndUpdate(req.params.studentId, req.body, {new:true} ) // {new:true} updates the response we send to the frontend. without it, the visual part is updated too, but the response is not
     .then((student) => {
       res.json(student);
     })
@@ -183,6 +183,16 @@ app.put("/api/cohorts/:cohortId", (req, res) => {
   })
   .catch((error) => {
     res.status(500).json({message: "Error while updating a cohort"})
+  })
+})
+
+app.delete("/api/cohorts/:cohortId", (req, res) => {
+  Cohort.findByIdAndDelete(req.params.cohortId)
+  .then((cohort) => {
+    res.json(cohort);
+  })
+  .catch((error) => {
+    res.status(500).json({message: "Error while trying to delete cohort"})
   })
 })
 
