@@ -76,6 +76,7 @@ app.post("/api/students", (req, res) => {
 //Get all students
 app.get("/api/students", (req, res) => {
   Student.find({})
+  .populate("cohort")
   .then((allStudents) => {
     res.status(200).json(allStudents)
   })
@@ -87,6 +88,7 @@ app.get("/api/students", (req, res) => {
 app.get("/api/students/cohort/:cohortId", (req, res) => {
   const cohortId = req.params.cohortId;
   Student.find({cohort:cohortId})
+  .populate("cohort")
   .then((result) => {  // "result" is the array of results that is returned by the find method (promise). every ditto we put inside the () of the then is automatically the result of find.
     console.log("request -> ", req)
     res.status(200).json(result);
